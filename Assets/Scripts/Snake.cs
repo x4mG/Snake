@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Snake : MonoBehaviour
 {
     private Vector2 _direction;
     private List<Transform> _segments;
     public Transform segmentPrefab;
+    public AudioSource pickupAudioSource;
+    public int score;
+    public Text scoreText;
 
     private void Start() {
         _segments = new List<Transform>();
@@ -41,6 +45,9 @@ public class Snake : MonoBehaviour
         segment.position = _segments[_segments.Count - 1].position;
 
         _segments.Add(segment);
+        pickupAudioSource.Play();
+        this.score++;
+        scoreText.text = score.ToString();
     }
 
     private void ResetState() {
@@ -53,6 +60,8 @@ public class Snake : MonoBehaviour
 
         this.transform.position = Vector3.zero;
         _direction = Vector2.zero;
+        this.score = 0;
+        scoreText.text = score.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
